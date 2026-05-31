@@ -20,18 +20,30 @@ const Login = () => {
 
   return (
     <div className="login-container">
-      <h1>🌍 WanderLog Login</h1>
+      <div className="logo">🌍</div>
+
+      <h1>WanderLog</h1>
+
+      <p
+        style={{
+          color: '#9ca3af',
+          marginBottom: '25px',
+        }}
+      >
+        Your Travel Bucket List
+      </p>
 
       <form onSubmit={handleSubmit}>
         <input
-          placeholder="Email"
+          type="email"
+          placeholder="Enter Email"
           value={email}
           onChange={e => setEmail(e.target.value)}
         />
 
         <input
           type="password"
-          placeholder="Password"
+          placeholder="Enter Password"
           value={password}
           onChange={e => setPassword(e.target.value)}
         />
