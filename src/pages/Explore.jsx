@@ -44,6 +44,52 @@ const Explore = () => {
     return <h1>Loading...</h1>
   }
 
+ import {useEffect, useState} from 'react'
+import {Link, useNavigate} from 'react-router-dom'
+
+const Explore = () => {
+  const [countries, setCountries] = useState([])
+  const [loading, setLoading] = useState(true)
+  const [search, setSearch] = useState('')
+  const [region, setRegion] = useState('')
+
+  const navigate = useNavigate()
+
+  useEffect(() => {
+    const getCountries = async () => {
+      const response = await fetch(
+        'https://restcountries.com/v3.1/all?fields=name,flags,population,region,cca3'
+      )
+
+      const data = await response.json()
+
+      setCountries(data)
+      setLoading(false)
+    }
+
+    getCountries()
+  }, [])
+
+  const logout = () => {
+    localStorage.removeItem('token')
+    navigate('/')
+  }
+
+  const filteredCountries = countries.filter(country => {
+    const matchesSearch = country.name.common
+      .toLowerCase()
+      .includes(search.toLowerCase())
+
+    const matchesRegion =
+      region === '' || country.region === region
+
+    return matchesSearch && matchesRegion
+  })
+
+  if (loading) {
+    return <h1>Loading...</h1>
+  }
+
   return (
     <div style={{padding: '20px'}}>
       <div
@@ -126,6 +172,8 @@ const Explore = () => {
       </div>
     </div>
   )
+}
+
 }
 
 export default Explore
